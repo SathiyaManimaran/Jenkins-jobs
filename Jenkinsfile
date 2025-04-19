@@ -1,13 +1,30 @@
+
+
 pipeline {
     agent any
 
-  triggers {
+     triggers {
         pollSCM('H/5 * * * *') // Check for changes every 5 minutes
     }
+    environment {
+        GIT_CREDENTIALS = 'SathiyaManimaran'  // The ID of the credentials you created
+    }
     stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Use the Git credentials to clone the repository
+                    git(
+                        url: 'https://github.com/SathiyaManimaran/spring-boot-website.git',
+                        credentialsId: "${env.GIT_CREDENTIALS}"
+                    )
+                }
+            }
+        }
         stage('Build') {
             steps {
-                echo "Building from develop branch"
+                echo "Building your project..."
+                // Add build steps here
             }
         }
     }
